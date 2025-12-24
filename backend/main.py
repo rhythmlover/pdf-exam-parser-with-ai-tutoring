@@ -18,15 +18,12 @@ load_dotenv()
 
 app = FastAPI()
 
-# CORS middleware
+# CORS middleware - Allow all origins for simplicity (or use specific origins list)
+# For production, you can restrict this to specific domains
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "https://pdf-exam-parser-with-ai-tutoring.vercel.app"
-    ],
-    allow_credentials=True,
+    allow_origins=["*"],  # Allow all origins including Vercel preview deployments
+    allow_credentials=False,  # Must be False when allow_origins is ["*"]
     allow_methods=["*"],
     allow_headers=["*"],
 )
