@@ -1,5 +1,5 @@
 import React from 'react';
-import { Upload, BookOpen, Loader2 } from 'lucide-react';
+import { Upload, BookOpen, Loader2, AlertCircle } from 'lucide-react';
 
 interface UploadScreenProps {
   loading: boolean;
@@ -14,6 +14,18 @@ const UploadScreen: React.FC<UploadScreenProps> = ({ loading, onFileUpload }) =>
           <BookOpen className="w-16 h-16 text-indigo-600 mx-auto mb-4" />
           <h1 className="text-3xl font-bold text-gray-800 mb-2">Exam Paper AI Assistant</h1>
           <p className="text-gray-600">Upload a PDF exam paper to get started</p>
+        </div>
+
+        <div className="mb-6 bg-amber-50 border border-amber-200 rounded-lg p-4">
+          <div className="flex items-start">
+            <AlertCircle className="w-5 h-5 text-amber-600 mr-2 mt-0.5 flex-shrink-0" />
+            <div className="text-sm text-amber-800">
+              <p className="font-medium mb-1">Note about hosting</p>
+              <p className="text-amber-700">
+                This app uses Render's free tier for backend hosting. The first request may take 30-90 seconds due to cold start after 15 minutes of inactivity.
+              </p>
+            </div>
+          </div>
         </div>
 
         <label className="block">
