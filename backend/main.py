@@ -22,7 +22,7 @@ app = FastAPI()
 # For production, you can restrict this to specific domains
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins including Vercel preview deployments
+    allow_origins=["https://pdf-exam-parser-with-ai-tutoring.vercel.app"],  # Allow all origins including Vercel preview deployments
     allow_credentials=False,  # Must be False when allow_origins is ["*"]
     allow_methods=["*"],
     allow_headers=["*"],
