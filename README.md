@@ -16,7 +16,7 @@ An intelligent exam assistant that parses PDF exam papers using AI vision and pr
 - **PDF Processing**: pdfplumber + pdf2image + Poppler
 
 ### Why Python Backend?
-Python libraries handle complex PDFs, tables, and image extraction much better. Both OpenAI and Anthropic have excellent Python SDKs
+Python libraries handle complex PDFs, tables, and image extraction much better. Both OpenAI and Anthropic have excellent Python SDKs.
 FastAPI is Modern, fast, and includes automatic API documentation.
 
 ### Why ReactJS Frontend?
