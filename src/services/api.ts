@@ -1,7 +1,6 @@
 import { ExamPaper, AnswerResult } from '../types';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000';
-console.log('API_BASE_URL:', API_BASE_URL);
 
 export const uploadExamPaper = async (file: File): Promise<ExamPaper> => {
   const formData = new FormData();
