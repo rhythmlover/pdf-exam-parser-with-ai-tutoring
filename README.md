@@ -2,35 +2,11 @@
 
 An intelligent exam assistant that parses PDF exam papers using AI vision and provides interactive tutoring.
 
-## 🚀 Quick Start
-
 ### Prerequisites
 - Python 3.8+
 - Node.js 16+
 - OpenAI API key (get from https://platform.openai.com/api-keys)
 - Poppler (for PDF processing)
-
-### Installation
-
-**Backend:**
-```bash
-cd backend
-pip install -r requirements.txt
-
-# Add your OpenAI API key to .env file
-echo "OPENAI_API_KEY=your_key_here" > .env
-
-python main.py
-```
-
-**Frontend:**
-```bash
-cd frontend
-npm install
-npm start
-```
-
-See [SETUP.md](SETUP.md) for detailed instructions.
 
 ## Technical Details
 
@@ -39,8 +15,15 @@ See [SETUP.md](SETUP.md) for detailed instructions.
 - **Backend**: FastAPI (Python) with GPT-4o Vision
 - **PDF Processing**: pdfplumber + pdf2image + Poppler
 
-### AI Models
-- **GPT-4o**: For visual PDF parsing (high accuracy)
+### Why Python Backend?
+Python libraries handle complex PDFs, tables, and image extraction much better. Both OpenAI and Anthropic have excellent Python SDKs
+FastAPI is Modern, fast, and includes automatic API documentation.
+
+### Why ReactJS Frontend?
+Familiar, component-based, great for interactive UIs.
+
+### AI Models Used
+- **GPT-4o**: For visual PDF parsing
 - **GPT-4**: For conversational tutoring
 
 ### Parsing Strategy
@@ -49,46 +32,71 @@ See [SETUP.md](SETUP.md) for detailed instructions.
 3. Extract questions, options, types, and metadata
 4. Fallback to regex parsing if AI unavailable
 
-## 📁 Project Structure
+## Trade-offs & Design Decisions (For MVP)
 
-```
-├── backend/
-│   ├── main.py              # FastAPI server with AI parsing
-│   ├── requirements.txt     # Python dependencies
-│   ├── .env                 # API keys (create from .env.example)
-│   └── .env.example         # Environment template
-├── frontend/
-│   ├── src/
-│   │   ├── App.tsx          # Main React application
-│   │   ├── input.css        # Tailwind source
-│   │   └── output.css       # Compiled styles
-│   └── package.json
-├── SETUP.md                 # Detailed setup instructions
-└── README.md                # This file
-```
+### 1. **Why AI Vision over Traditional OCR**
+1. AI vision is more accurate especially when it comes to complex layouts
+2. There is higher context understanding especially when it comes to handling subsections
+3. Can support more languages, no need to download language packs
+
+### 2. **Why In-Memory over Database Storage**
+1. Its free and doesn't need much setup, very fast prototyping speed
+2. But no persistence in data, data lost upon restart
+3. Accepting data loss for faster development
+
+### 3. **Why Server-Side PDF Processing over Client-side**
+1. Reliable processing power
+2. Higher file size limits
+3. Can invoke OpenAI calls directly
+
+### 4. **Why Monolithic vs Microservices**
+1. Fast development/iteration for prototyping
+2. Easy to understand
+3. Single point for deployments
+
+## Scope & Assumptions
+
+### Current Scope (MVP)
+
+1. **Single-user local operation**: No authentication or multi-user support
+2. **Session-based usage**: Complete exam in one sitting
+3. **In-memory storage**: No database persistence
+4. **Limited PDF size**: Optimized for 8-page exams
+5. **Standard exam formats**: Works best with structured exam papers
+
+### Key Assumptions
+
+#### 1. **Small to Medium Exam Papers**
+- **Assumption**: Most exams are 5-15 pages
+- **Limit**: Currently processes first 8 pages only because GPT-4 Vision has 90-second processing limit
+
+#### 2. **Single Session Usage**
+- **Assumption**: Students complete exams in one sitting
+- **Limit**: No progress saving or answer editing, hitting refresh loses all progress
+
+#### 3. **Trust Model**
+- **Assumption**: Users are trusted (no cheating prevention)
+- **Limit**: No proctoring, time limits, or answer locking, not suitable for official examinations
+
+#### 4. **English/Chinese Primary Support**
+- **Assumption**: Most target users use English or Chinese exams
+- **Limit**: Other languages untested, may be unstable
+
+#### 5. **Reliable Internet Connection**
+- **Assumption**: Users have stable, fast internet
+- **Limit**: No offline mode or request queueing
+
+#### 6. **Clean, Standard PDF Format**
+- **Assumption**: PDFs are text-based, not scanned images
+- **Limit**: Handwritten or heavily distorted PDFs may fail
 
 ## Configuration
 
 Edit `backend/.env`:
 ```env
-OPENAI_API_KEY=sk-...       # Required for AI parsing
-ANTHROPIC_API_KEY=sk-...    # Optional for Claude tutoring
+OPENAI_API_KEY=sk-...       # For AI parsing and AI tutoring
+ANTHROPIC_API_KEY=sk-...    # For Claude tutoring
 ```
 
-## 🐛 Troubleshooting
 
-**"www.sgexam.com" watermarks appearing:**
-- Ensure `OPENAI_API_KEY` is set in `backend/.env`
-- Restart the backend server after adding the key
-
-**PDF not parsing:**
-- Install Poppler: Windows users download from https://github.com/oschwartz10612/poppler-windows/releases/
-- Add Poppler to your system PATH
-
-## Example Exam Papers
-
-The system has been tested with:
-- Primary 4 English exams (multiple choice and comprehension)
-- Primary 4 Chinese exams (various question types)
-- Papers from various Singapore schools
 
